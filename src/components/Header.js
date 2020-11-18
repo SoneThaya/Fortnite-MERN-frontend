@@ -6,7 +6,7 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <Navbar.Brand href="/">Fortnite</Navbar.Brand>
+          <Navbar.Brand href="/"><h1 className='header__h1'>Fortnite Info</h1></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">

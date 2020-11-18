@@ -1,6 +1,7 @@
 import React from "react";
 import { Card } from "react-bootstrap";
 
+
 const ShopItem = ({ item }) => {
   return (
     <Card className="my-3 p-3 rounded bg-info">
