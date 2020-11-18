@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Image, ListGroup } from "react-bootstrap";
 import Rating from "../components/Rating";
-import items from "../items";
+import axios from "axios";
 
 const ItemScreen = ({ match }) => {
-  const item = items.find((i) => i.manifestId === Number(match.params.id));
-  console.log(item);
+  const [item, setItem] = useState({});
+
+  useEffect(() => {
+    const fetchItem = async () => {
+      const { data } = await axios.get(`/api/items/${match.params.id}`);
+
+      setItem(data);
+    };
+
+    fetchItem();
+  }, [match]);
 
   return (
     <>
@@ -27,7 +36,7 @@ const ItemScreen = ({ match }) => {
             <ListGroup.Item>
               <h3>{item.name}</h3>
             </ListGroup.Item>
-            
+
             <ListGroup.Item>{item.vBucks} vBucks</ListGroup.Item>
             <ListGroup.Item>Category: {item.storeCategory}</ListGroup.Item>
             <ListGroup.Item>Rarity: {item.rarity}</ListGroup.Item>
