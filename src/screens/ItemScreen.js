@@ -10,7 +10,7 @@ const ItemScreen = ({ match }) => {
   useEffect(() => {
     const fetchItem = async () => {
       const { data } = await axios.get(`/api/items/${match.params.id}`);
-
+    
       setItem(data);
     };
 
