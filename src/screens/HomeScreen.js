@@ -18,7 +18,7 @@ const HomeScreen = () => {
 
   return (
     <>
-      <h1>Fortnite Cosmetics</h1>
+      <h1>All Fortnite Cosmetics</h1>
       {loading ? (
         <Loader />
       ) : error ? (
