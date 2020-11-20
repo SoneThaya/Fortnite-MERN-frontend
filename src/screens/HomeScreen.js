@@ -18,11 +18,11 @@ const HomeScreen = () => {
 
   return (
     <>
-      <h1>Fortnite Items</h1>
+      <h1>Fortnite Cosmetics</h1>
       {loading ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
         <Row>
           {items.map((item) => (
