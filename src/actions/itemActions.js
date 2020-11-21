@@ -103,7 +103,7 @@ export const createItem = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`/api/items/`, {}, config);
+    const { data } = await axios.post(`/api/items`, {}, config);
 
     dispatch({
       type: ITEM_CREATE_SUCCESS,

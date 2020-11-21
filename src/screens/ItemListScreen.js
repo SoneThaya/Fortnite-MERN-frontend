@@ -27,7 +27,8 @@ const ItemListScreen = ({ history, match }) => {
     success: successCreate,
     item: createdItem,
   } = itemCreate;
-
+  console.log(loadingCreate);
+  console.log(createdItem);
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -39,7 +40,7 @@ const ItemListScreen = ({ history, match }) => {
     }
 
     if (successCreate) {
-      history.push(`/admin/item/${createdItem._id}/edit`);
+      history.push(`/admin/item/${createdItem.manifestId}/edit`);
     } else {
       dispatch(listItems());
     }
