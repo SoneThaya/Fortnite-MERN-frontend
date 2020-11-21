@@ -19,7 +19,9 @@ const Header = () => {
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <LinkContainer to="/">
-            <h1 className="header__h1">Fortnite Info</h1>
+            <Navbar.Brand>
+              <h1 className="header__h1">Fortnite Info</h1>
+            </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
