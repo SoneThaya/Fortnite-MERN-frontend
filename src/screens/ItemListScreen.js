@@ -4,7 +4,8 @@ import { Table, Button, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-import { listItems, deleteItem } from "../actions/itemActions";
+import { listItems, deleteItem, createItem } from "../actions/itemActions";
+import { ITEM_CREATE_RESET } from "../constants/itemConstants";
 
 const ItemListScreen = ({ history, match }) => {
   const dispatch = useDispatch();
@@ -19,16 +20,30 @@ const ItemListScreen = ({ history, match }) => {
     success: successDelete,
   } = itemDelete;
 
+  const itemCreate = useSelector((state) => state.itemCreate);
+  const {
+    loading: loadingCreate,
+    error: errorCreate,
+    success: successCreate,
+    item: createdItem,
+  } = itemCreate;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listItems());
-    } else {
+    dispatch({ type: ITEM_CREATE_RESET });
+
+    if (!userInfo || !userInfo.isAdmin) {
       history.push("/login");
     }
-  }, [dispatch, userInfo, history, successDelete]);
+
+    if (successCreate) {
+      history.push(`/admin/item/${createdItem._id}/edit`);
+    } else {
+      dispatch(listItems());
+    }
+  }, [dispatch, userInfo, history, successDelete, successCreate, createdItem]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -36,8 +51,8 @@ const ItemListScreen = ({ history, match }) => {
     }
   };
 
-  const createItemHandler = (item) => {
-    // create item
+  const createItemHandler = () => {
+    dispatch(createItem());
   };
 
   return (
@@ -54,6 +69,8 @@ const ItemListScreen = ({ history, match }) => {
       </Row>
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant="danger">{errorDelete}</Message>}
+      {loadingCreate && <Loader />}
+      {errorCreate && <Message variant="danger">{errorCreate}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
