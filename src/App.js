@@ -29,6 +29,7 @@ function App() {
           <Route path="/admin/itemlist" component={ItemListScreen} />
           <Route path="/admin/user/:id/edit" component={UserEditScreen} />
           <Route path="/admin/item/:id/edit" component={ItemEditScreen} />
+          <Route path="/search/:keyword" component={HomeScreen} />
           <Route path="/" component={HomeScreen} exact />
         </Container>
       </main>

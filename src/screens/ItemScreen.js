@@ -123,10 +123,10 @@ const ItemScreen = ({ match }) => {
                           value={comment}
                           onChange={(e) => setComment(e.target.value)}
                         ></Form.Control>
-                        <Button type="submit" variant="primary">
-                          Submit
-                        </Button>
                       </Form.Group>
+                      <Button type="submit" variant="primary">
+                        Submit
+                      </Button>
                     </Form>
                   ) : (
                     <Message>
