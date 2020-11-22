@@ -18,6 +18,9 @@ import {
   ITEM_CREATE_REVIEW_REQUEST,
   ITEM_CREATE_REVIEW_FAIL,
   ITEM_CREATE_REVIEW_SUCCESS,
+  ITEM_TOP_REQUEST,
+  ITEM_TOP_SUCCESS,
+  ITEM_TOP_FAIL,
 } from "../constants/itemConstants";
 import { logout } from "./userActions";
 
@@ -208,6 +211,24 @@ export const createItemReview = (itemId, review) => async (
     dispatch({
       type: ITEM_CREATE_REVIEW_FAIL,
       payload: message,
+    });
+  }
+};
+
+export const listTopItems = () => async (dispatch) => {
+  try {
+    dispatch({ type: ITEM_TOP_REQUEST });
+
+    const { data } = await axios.get(`/api/items/top`);
+
+    dispatch({ type: ITEM_TOP_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: ITEM_TOP_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
     });
   }
 };

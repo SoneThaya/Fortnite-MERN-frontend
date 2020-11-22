@@ -6,6 +6,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import Paginate from "../components/Paginate";
 import { listItems } from "../actions/itemActions";
+import ItemCarousel from "../components/ItemCarousel";
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
@@ -23,6 +24,7 @@ const HomeScreen = ({ match }) => {
 
   return (
     <>
+      {!keyword && <ItemCarousel />}
       <h1>All Fortnite Cosmetics</h1>
       {loading ? (
         <Loader />
