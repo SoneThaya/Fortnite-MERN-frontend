@@ -9,14 +9,16 @@ import { listItems } from "../actions/itemActions";
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword;
 
+  const pageNumber = match.params.pageNumber || 1;
+
   const dispatch = useDispatch();
 
   const itemList = useSelector((state) => state.itemList);
   const { loading, error, items } = itemList;
 
   useEffect(() => {
-    dispatch(listItems(keyword));
-  }, [dispatch, keyword]);
+    dispatch(listItems(keyword, pageNumber));
+  }, [dispatch, keyword, pageNumber]);
 
   return (
     <>

@@ -21,11 +21,15 @@ import {
 } from "../constants/itemConstants";
 import { logout } from "./userActions";
 
-export const listItems = (keyword = "") => async (dispatch) => {
+export const listItems = (keyword = "", pageNumber = "") => async (
+  dispatch
+) => {
   try {
     dispatch({ type: ITEM_LIST_REQUEST });
 
-    const { data } = await axios.get(`/api/items?keyword=${keyword}`);
+    const { data } = await axios.get(
+      `/api/items?keyword=${keyword}&pageNumber=${pageNumber}`
+    );
 
     dispatch({ type: ITEM_LIST_SUCCESS, payload: data });
   } catch (error) {
