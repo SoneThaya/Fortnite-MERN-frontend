@@ -12,7 +12,7 @@ const ItemScreen = ({ match }) => {
 
   const itemDetails = useSelector((state) => state.itemDetails);
   const { loading, error, item } = itemDetails;
-
+console.log(item)
   useEffect(() => {
     dispatch(listItemDetails(match.params.id));
   }, [dispatch, match]);

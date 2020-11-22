@@ -12,6 +12,12 @@ import {
   ITEM_CREATE_REQUEST,
   ITEM_CREATE_SUCCESS,
   ITEM_CREATE_FAIL,
+  ITEM_UPDATE_REQUEST,
+  ITEM_UPDATE_SUCCESS,
+  ITEM_UPDATE_FAIL,
+  ITEM_CREATE_REVIEW_REQUEST,
+  ITEM_CREATE_REVIEW_FAIL,
+  ITEM_CREATE_REVIEW_SUCCESS,
 } from "../constants/itemConstants";
 import { logout } from "./userActions";
 
@@ -119,6 +125,84 @@ export const createItem = () => async (dispatch, getState) => {
     }
     dispatch({
       type: ITEM_CREATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const updateItem = (item) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ITEM_UPDATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.put(`/api/items/${item._id}`, item, config);
+
+    dispatch({
+      type: ITEM_UPDATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: ITEM_UPDATE_FAIL,
+      payload: message,
+    });
+  }
+};
+
+export const createItemReview = (itemId, review) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({
+      type: ITEM_CREATE_REVIEW_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.post(`/api/items/${itemId}/reviews`, review, config);
+
+    dispatch({
+      type: ITEM_CREATE_REVIEW_SUCCESS,
+    });
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    if (message === "Not authorized, token failed") {
+      dispatch(logout());
+    }
+    dispatch({
+      type: ITEM_CREATE_REVIEW_FAIL,
       payload: message,
     });
   }

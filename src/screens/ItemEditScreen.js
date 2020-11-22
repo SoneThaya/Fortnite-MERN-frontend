@@ -5,11 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
-import { listItemDetails } from "../actions/itemActions";
+import { listItemDetails, updateItem } from "../actions/itemActions";
+import { ITEM_UPDATE_RESET } from "../constants/itemConstants";
 
 const ItemEditScreen = ({ match, history }) => {
   const itemId = match.params.id;
-    console.log(itemId)
+
+  console.log(itemId);
   const [name, setName] = useState("");
   const [manifestId, setManifestId] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
@@ -21,26 +23,48 @@ const ItemEditScreen = ({ match, history }) => {
 
   const itemDetails = useSelector((state) => state.itemDetails);
   const { loading, error, item } = itemDetails;
+
   console.log(item);
-  console.log(loading);
-  console.log(error);
+
+  const itemUpdate = useSelector((state) => state.itemUpdate);
+  const {
+    loading: loadingUpdate,
+    error: errorUpdate,
+    success: successUpdate,
+  } = itemUpdate;
+
   useEffect(() => {
-    if (!item.name || item.manifestId !== itemId) {
-      dispatch(listItemDetails(item));
+    if (successUpdate) {
+      dispatch({ type: ITEM_UPDATE_RESET });
+      history.push("/admin/itemlist");
     } else {
-      setName(item.name);
-      setManifestId(item.manifestId);
-      setImageUrl(item.imageUrl);
-      setRarity(item.rarity);
-      setStoreCategory(item.storeCategory);
-      setVBucks(item.vBucks);
+      if (item.manifestId) {
+        dispatch(listItemDetails(item.manifestId));
+      } else {
+        setName(item.name);
+        setManifestId(item.manifestId);
+        setImageUrl(item.imageUrl);
+        setRarity(item.rarity);
+        setStoreCategory(item.storeCategory);
+        setVBucks(item.vBucks);
+      }
     }
-  }, [dispatch, itemId, item, history]);
+  }, [dispatch, history, itemId, item, successUpdate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    // update item
+    dispatch(
+      updateItem({
+        _id: itemId,
+        name,
+        manifestId,
+        imageUrl,
+        rarity,
+        storeCategory,
+        vBucks,
+      })
+    );
   };
 
   return (
@@ -51,7 +75,8 @@ const ItemEditScreen = ({ match, history }) => {
 
       <FormContainer>
         <h1>Edit Item</h1>
-
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant="danger">{errorUpdate}</Message>}
         {loading ? (
           <Loader />
         ) : error ? (
@@ -80,42 +105,42 @@ const ItemEditScreen = ({ match, history }) => {
 
             <Form.Group controlId="imageUrl">
               <Form.Label>Image Url</Form.Label>
-              <Form.Check
+              <Form.Control
                 type="text"
                 placeholder="Image Url"
                 value={imageUrl}
                 onChange={(e) => setImageUrl(e.target.value)}
-              ></Form.Check>
+              ></Form.Control>
             </Form.Group>
 
             <Form.Group controlId="rarity">
               <Form.Label>Rarity</Form.Label>
-              <Form.Check
+              <Form.Control
                 type="text"
                 placeholder="Enter rarity"
                 value={rarity}
                 onChange={(e) => setRarity(e.target.value)}
-              ></Form.Check>
+              ></Form.Control>
             </Form.Group>
 
             <Form.Group controlId="storeCategory">
               <Form.Label>Store Category</Form.Label>
-              <Form.Check
+              <Form.Control
                 type="text"
                 placeholder="Enter store category"
                 value={storeCategory}
                 onChange={(e) => setStoreCategory(e.target.value)}
-              ></Form.Check>
+              ></Form.Control>
             </Form.Group>
 
             <Form.Group controlId="vBucks">
               <Form.Label>vBucks</Form.Label>
-              <Form.Check
+              <Form.Control
                 type="number"
                 placeholder="Enter vBucks"
                 value={vBucks}
                 onChange={(e) => setVBucks(e.target.value)}
-              ></Form.Check>
+              ></Form.Control>
             </Form.Group>
 
             <Button type="submit" variant="primary">

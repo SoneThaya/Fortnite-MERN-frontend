@@ -12,6 +12,14 @@ import {
   ITEM_CREATE_SUCCESS,
   ITEM_CREATE_FAIL,
   ITEM_CREATE_RESET,
+  ITEM_UPDATE_FAIL,
+  ITEM_UPDATE_RESET,
+  ITEM_UPDATE_REQUEST,
+  ITEM_UPDATE_SUCCESS,
+  ITEM_CREATE_REVIEW_REQUEST,
+  ITEM_CREATE_REVIEW_SUCCESS,
+  ITEM_CREATE_REVIEW_RESET,
+  ITEM_CREATE_REVIEW_FAIL,
 } from "../constants/itemConstants";
 
 export const itemListReducer = (state = { items: [] }, action) => {
@@ -61,11 +69,41 @@ export const itemCreateReducer = (state = {}, action) => {
     case ITEM_CREATE_REQUEST:
       return { loading: true };
     case ITEM_CREATE_SUCCESS:
-      return { loading: false, success: true, product: action.payload };
+      return { loading: false, success: true, item: action.payload };
     case ITEM_CREATE_FAIL:
       return { loading: false, error: action.payload };
     case ITEM_CREATE_RESET:
       return {};
+    default:
+      return state;
+  }
+};
+
+export const itemUpdateReducer = (state = { item: {} }, action) => {
+  switch (action.type) {
+    case ITEM_UPDATE_REQUEST:
+      return { loading: true };
+    case ITEM_UPDATE_SUCCESS:
+      return { loading: false, success: true, item: action.payload };
+    case ITEM_UPDATE_FAIL:
+      return { loading: false, error: action.payload };
+    case ITEM_UPDATE_RESET:
+      return { item: {} };
+    default:
+      return state;
+  }
+};
+
+export const itemReviewCreateReducer = (state = { }, action) => {
+  switch (action.type) {
+    case ITEM_CREATE_REVIEW_REQUEST:
+      return { loading: true };
+    case ITEM_CREATE_REVIEW_SUCCESS:
+      return { loading: false, success: true };
+    case ITEM_CREATE_REVIEW_FAIL:
+      return { loading: false, error: action.payload };
+    case ITEM_CREATE_REVIEW_RESET:
+      return { };
     default:
       return state;
   }

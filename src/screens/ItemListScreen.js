@@ -13,6 +13,8 @@ const ItemListScreen = ({ history, match }) => {
   const itemList = useSelector((state) => state.itemList);
   const { loading, error, items } = itemList;
 
+  console.log(items);
+
   const itemDelete = useSelector((state) => state.itemDelete);
   const {
     loading: loadingDelete,
@@ -23,12 +25,14 @@ const ItemListScreen = ({ history, match }) => {
   const itemCreate = useSelector((state) => state.itemCreate);
   const {
     loading: loadingCreate,
-    error: errorCreate,
     success: successCreate,
     item: createdItem,
+    error: errorCreate,
   } = itemCreate;
-  console.log(loadingCreate);
+
   console.log(createdItem);
+  console.log(successCreate);
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
@@ -40,11 +44,11 @@ const ItemListScreen = ({ history, match }) => {
     }
 
     if (successCreate) {
-      history.push(`/admin/item/${createdItem.manifestId}/edit`);
+      history.push(`/admin/item/${createdItem._id}/edit`);
     } else {
       dispatch(listItems());
     }
-  }, [dispatch, userInfo, history, successDelete, successCreate, createdItem]);
+  }, [dispatch, history, userInfo, successDelete, successCreate, createdItem]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure?")) {
@@ -90,7 +94,7 @@ const ItemListScreen = ({ history, match }) => {
           </thead>
           <tbody>
             {items.map((item) => (
-              <tr key={item.manifestId}>
+              <tr key={item._id}>
                 <td>{item.manifestId}</td>
                 <td>{item.name}</td>
                 <td>{item.rarity}</td>
@@ -98,7 +102,7 @@ const ItemListScreen = ({ history, match }) => {
                 <td>{item.vBucks} vBucks</td>
 
                 <td>
-                  <LinkContainer to={`/admin/item/${item.manifestId}/edit`}>
+                  <LinkContainer to={`/admin/item/${item._id}/edit`}>
                     <Button variant="light" className="btn-sm">
                       <i className="fas fa-edit"></i>
                     </Button>
