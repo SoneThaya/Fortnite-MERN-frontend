@@ -8,14 +8,11 @@ const ShopScreen = () => {
 
   useEffect(() => {
     axios
-      .get(
-        `https://cors-anywhere.herokuapp.com/${process.env.REACT_APP_FORTNITE_BACKEND}`,
-        {
-          headers: {
-            "TRN-Api-Key": process.env.REACT_APP_API_KEY,
-          },
-        }
-      )
+      .get(`${process.env.REACT_APP_FORTNITE_BACKEND}`, {
+        headers: {
+          "TRN-Api-Key": process.env.REACT_APP_API_KEY,
+        },
+      })
       .then((res) => {
         setItems(res.data);
       })
