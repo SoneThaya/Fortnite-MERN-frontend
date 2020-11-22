@@ -26,10 +26,15 @@ function App() {
           <Route path="/item/:id" component={ItemScreen} />
           <Route path="/itemshop" component={ShopScreen} />
           <Route path="/admin/userlist" component={UserListScreen} />
-          <Route path="/admin/itemlist" component={ItemListScreen} />
+          <Route path="/admin/itemlist" component={ItemListScreen} exact />
+          <Route
+            path="/admin/itemlist/:pageNumber"
+            component={ItemListScreen}
+            exact
+          />
           <Route path="/admin/user/:id/edit" component={UserEditScreen} />
           <Route path="/admin/item/:id/edit" component={ItemEditScreen} />
-          <Route path="/search/:keyword" component={HomeScreen} />
+          <Route path="/search/:keyword" component={HomeScreen} exact />
           <Route path="/page/:pageNumber" component={HomeScreen} exact />
           <Route
             path="/search/:keyword/page/:pageNumber"
